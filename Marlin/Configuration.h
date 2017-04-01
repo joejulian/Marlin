@@ -357,9 +357,9 @@
 
   //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   //from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-  #define  DEFAULT_bedKp 15.00
-  #define  DEFAULT_bedKi .04
-  #define  DEFAULT_bedKd 305.4
+  //#define  DEFAULT_bedKp 15.00
+  //#define  DEFAULT_bedKi .04
+  //#define  DEFAULT_bedKd 305.4
 
   //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   //from pidautotune
@@ -368,6 +368,9 @@
   //#define  DEFAULT_bedKd 1675.16
 
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
+  #define  DEFAULT_bedKp 310.12
+  #define  DEFAULT_bedKi 53.47
+  #define  DEFAULT_bedKd 449.67
 #endif // PIDTEMPBED
 
 // @section extruder
@@ -429,36 +432,36 @@
   // Make delta curves from many straight lines (linear interpolation).
   // This is a trade-off between visible corners (not enough segments)
   // and processor overload (too many expensive sqrt calls).
-  #define DELTA_SEGMENTS_PER_SECOND 200
+  #define DELTA_SEGMENTS_PER_SECOND 200.0
 
   // NOTE NB all values for DELTA_* values MUST be floating point, so always have a decimal point in them
 
   // Center-to-center distance of the holes in the diagonal push rods.
-  #define DELTA_DIAGONAL_ROD 242 // mm
+  #define DELTA_DIAGONAL_ROD 247.0 // mm
 
   // Horizontal offset from middle of printer to smooth rod center.
-  #define DELTA_SMOOTH_ROD_OFFSET 187 // mm
+  #define DELTA_SMOOTH_ROD_OFFSET 212.35 // mm
 
   // Horizontal offset of the universal joints on the end effector.
-  #define DELTA_EFFECTOR_OFFSET 25.0 // mm
+  #define DELTA_EFFECTOR_OFFSET 34.0 // mm
 
   // Horizontal offset of the universal joints on the carriages.
-  #define DELTA_CARRIAGE_OFFSET 20.0 // mm
+  #define DELTA_CARRIAGE_OFFSET 26.0 // mm
 
   // Horizontal distance bridged by diagonal push rods when effector is centered.
-  #define DELTA_RADIUS (DELTA_SMOOTH_ROD_OFFSET-(DELTA_EFFECTOR_OFFSET)-(DELTA_CARRIAGE_OFFSET) + 1)
+  #define DELTA_RADIUS (DELTA_SMOOTH_ROD_OFFSET-(DELTA_EFFECTOR_OFFSET)-(DELTA_CARRIAGE_OFFSET) + 1.0)
 
   // Print surface diameter/2 minus unreachable space (avoid collisions with vertical towers).
-  #define DELTA_PRINTABLE_RADIUS 110.0
+  #define DELTA_PRINTABLE_RADIUS 90.0
 
   // Delta calibration menu
   // See http://minow.blogspot.com/index.html#4918805519571907051
   #define DELTA_CALIBRATION_MENU
 
   // After homing move down to a height where XY movement is unconstrained
-  #define DELTA_HOME_TO_SAFE_ZONE
+  //#define DELTA_HOME_TO_SAFE_ZONE
 
-  //#define DELTA_ENDSTOP_ADJ { 0, 0, 0 }
+  #define DELTA_ENDSTOP_ADJ { -0.29, -0.35, -0.0 }
 
 #endif
 
@@ -517,7 +520,7 @@
 #define XYZ_FULL_STEPS_PER_ROTATION 200
 #define XYZ_MICROSTEPS 16
 #define XYZ_BELT_PITCH 2
-#define XYZ_PULLEY_TEETH 16
+#define XYZ_PULLEY_TEETH 20
 
 // delta speeds must be the same on xyz
 #define XYZ_STEPS (XYZ_FULL_STEPS_PER_ROTATION * XYZ_MICROSTEPS / double(XYZ_BELT_PITCH) / double(XYZ_PULLEY_TEETH))
@@ -538,7 +541,7 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2[, E3]]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { XYZ_STEPS, XYZ_STEPS, XYZ_STEPS, 500 }   // default steps per unit for PowerWasp
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { XYZ_STEPS, XYZ_STEPS, XYZ_STEPS, 87.75 }   // default steps per unit for PowerWasp
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -642,8 +645,8 @@
 //    O-- FRONT --+
 //  (0,0)
 #define X_PROBE_OFFSET_FROM_EXTRUDER -26.0     // Z probe to nozzle X offset: -left  +right
-#define Y_PROBE_OFFSET_FROM_EXTRUDER 15.0     // Z probe to nozzle Y offset: -front +behind
-#define Z_PROBE_OFFSET_FROM_EXTRUDER -1.3     // Z probe to nozzle Z offset: -below (always!)
+#define Y_PROBE_OFFSET_FROM_EXTRUDER -15.0     // Z probe to nozzle Y offset: -front +behind
+#define Z_PROBE_OFFSET_FROM_EXTRUDER -0.6     // Z probe to nozzle Z offset: -below (always!)
 
 // X and Y axis travel speed (mm/m) between probes
 #define XY_PROBE_SPEED 8000
@@ -688,11 +691,11 @@
 // Enable Z_MIN_PROBE_ENDSTOP to use _both_ a Z Probe and a Z-min-endstop on the same machine.
 // With this option the Z_MIN_PROBE_PIN will only be used for probing, never for homing.
 //
-#define Z_MIN_PROBE_ENDSTOP
+//#define Z_MIN_PROBE_ENDSTOP
 
 // Enable Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN to use the Z_MIN_PIN for your Z_MIN_PROBE.
 // The Z_MIN_PIN will then be used for both Z-homing and probing.
-//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
+#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
 // To use a probe you must enable one of the two options above!
 
@@ -745,9 +748,9 @@
 // @section machine
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-#define INVERT_X_DIR false // DELTA does not invert
-#define INVERT_Y_DIR false
-#define INVERT_Z_DIR false
+#define INVERT_X_DIR true // DELTA does not invert
+#define INVERT_Y_DIR true
+#define INVERT_Z_DIR true
 
 // @section extruder
 
@@ -873,14 +876,14 @@
   #define ABL_GRID_MAX_POINTS_Y ABL_GRID_MAX_POINTS_X
 
   // Set the boundaries for probing (where the probe can reach).
-  #define DELTA_PROBEABLE_RADIUS (DELTA_PRINTABLE_RADIUS - 10)
+  #define DELTA_PROBEABLE_RADIUS (DELTA_PRINTABLE_RADIUS - 30)
   #define LEFT_PROBE_BED_POSITION -(DELTA_PROBEABLE_RADIUS)
   #define RIGHT_PROBE_BED_POSITION DELTA_PROBEABLE_RADIUS
   #define FRONT_PROBE_BED_POSITION - (DELTA_PROBEABLE_RADIUS - 20)
   #define BACK_PROBE_BED_POSITION DELTA_PROBEABLE_RADIUS - 40
 
   // The Z probe minimum outer margin (to validate G29 parameters).
-  #define MIN_PROBE_EDGE 10
+  #define MIN_PROBE_EDGE 15
 
   // Probe along the Y axis, advancing X after each column
   //#define PROBE_Y_FIRST
@@ -904,10 +907,10 @@
   // 3 arbitrary points to probe.
   // A simple cross-product is used to estimate the plane of the bed.
   #define ABL_PROBE_PT_1_X 15
-  #define ABL_PROBE_PT_1_Y 180
+  #define ABL_PROBE_PT_1_Y 100
   #define ABL_PROBE_PT_2_X 15
   #define ABL_PROBE_PT_2_Y 20
-  #define ABL_PROBE_PT_3_X 170
+  #define ABL_PROBE_PT_3_X 90
   #define ABL_PROBE_PT_3_Y 20
 
 #elif ENABLED(AUTO_BED_LEVELING_UBL)
@@ -968,7 +971,7 @@
 // For DELTA this is the top-center of the Cartesian print volume.
 //#define MANUAL_X_HOME_POS 0
 //#define MANUAL_Y_HOME_POS 0
-#define MANUAL_Z_HOME_POS 235 // Distance between the nozzle to printbed after homing
+#define MANUAL_Z_HOME_POS 252.0 // Distance between the nozzle to printbed after homing
 
 // Use "Z Safe Homing" to avoid homing with a Z probe outside the bed area.
 //
